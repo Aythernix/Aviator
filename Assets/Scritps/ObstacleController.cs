@@ -12,7 +12,7 @@ public class ObstacleController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        rb = GetComponentInChildren<Rigidbody2D>();
+        rb = GetComponent<Rigidbody2D>();
     }
 
     // Update is called once per frame
@@ -26,15 +26,6 @@ public class ObstacleController : MonoBehaviour
     void Move()
     {
         rb.velocity = new Vector2(-moveSpeed, rb.velocity.y);
-    }
-    #endregion
-
-    #region Randomaniser
-    void Randomiser()
-    {
-        spawnPoint = Random.Range(0.5f, -0.5f);
-        
-        
     }
     #endregion
 }
