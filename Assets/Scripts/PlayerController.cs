@@ -7,6 +7,7 @@ public class PlayerController : MonoBehaviour
 {
     private Rigidbody2D rb;
     public float jumpStrength;
+    public int score;
     
     #region Untiy Functions
     // Start is called before the first frame update
@@ -22,6 +23,8 @@ public class PlayerController : MonoBehaviour
         {
             Jumping();
         }
+
+        Debug.Log(score);
     }
     #endregion
 
@@ -48,11 +51,19 @@ public class PlayerController : MonoBehaviour
 
     #endregion
 
-   #region Scooring
+   #region Scoring
     void Scoring()
     {
-        
+        score++;
     }
-    
+
+    private void OnTriggerEnter2D(Collider2D col)
+    {
+        if (col.CompareTag("Scoring"))
+        {
+            Scoring();
+        }
+    }
+
     #endregion
 }

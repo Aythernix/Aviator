@@ -43,11 +43,11 @@ public class TopObstacle : MonoBehaviour
     private void Checker() // Checks if the position of the bottom obstacle is valid
     {
         // Runs if the distance between both obstacles is less than 12.4 units or if the X axis of both obstacles don't match
-        if (Vector3.Distance(transform.GetChild(0).position, transform.position) < 12.4 || (int)math.round(transform.GetChild(0).position.x) != (int)math.round(transform.position.x))
+        if (Vector3.Distance(transform.GetChild(1).position, transform.position) < 12.4 || (int)math.round(transform.GetChild(1).position.x) != (int)math.round(transform.position.x))
         {
             // Gets a new position from the "Randomiser" and relocates the bottom obstacle
             Randomiser();
-            transform.GetChild(0).position = new Vector3(transform.position.x, bottomSpawn);
+            transform.GetChild(1).position = new Vector3(transform.position.x, bottomSpawn);
             
             // Checks if the new position is valid
             Checker();
@@ -67,7 +67,11 @@ public class TopObstacle : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D col) // runs on collision with a trigger
     {
-        // Destroys the obstacle
-        Destroy(gameObject); 
+        // Runs if the collision matches the tag
+        if (col.gameObject.CompareTag("Boundary"))
+        {
+            // Destroys the obstacle
+            Destroy(gameObject); 
+        }
     }
 }

@@ -272,7 +272,7 @@ GameObject:
   - component: {fileID: 1585364143}
   m_Layer: 0
   m_Name: End Bound
-  m_TagString: Untagged
+  m_TagString: Boundary
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -370,6 +370,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   jumpStrength: 5
+  score: 0
 --- !u!58 &1886214118
 CircleCollider2D:
   m_ObjectHideFlags: 0

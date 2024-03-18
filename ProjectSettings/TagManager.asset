@@ -7,6 +7,8 @@ TagManager:
   - Death
   - ObstacleUp
   - ObstacleDown
+  - Boundary
+  - Scoring
   layers:
   - Default
   - TransparentFX
