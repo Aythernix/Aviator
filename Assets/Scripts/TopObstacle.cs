@@ -25,7 +25,7 @@ public class TopObstacle : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        //Debug.Log(Vector3.Distance(transform.GetChild(2).transform.GetChild(1).position, transform.GetChild(1).position));
     }
     #endregion
     
@@ -36,21 +36,23 @@ public class TopObstacle : MonoBehaviour
         Randomiser(); 
         
         // Spawns the bottom obstacle and calls the "Checker" function
-        Instantiate(bottomObsatcle, new Vector3(transform.position.x, bottomSpawn), quaternion.identity, transform);
+        Instantiate(bottomObsatcle, new Vector3(transform.GetChild(1).position.x, bottomSpawn), quaternion.identity, transform);
         Checker();
     }
 
     private void Checker() // Checks if the position of the bottom obstacle is valid
     {
         // Runs if the distance between both obstacles is less than 12.4 units or if the X axis of both obstacles don't match
-        if (Vector3.Distance(transform.GetChild(1).position, transform.position) < 12.4 || (int)math.round(transform.GetChild(1).position.x) != (int)math.round(transform.position.x))
+        if (Vector3.Distance(transform.GetChild(2).transform.GetChild(0).position, transform.GetChild(1).position) < 12.4 || (int)math.round(transform.GetChild(2).transform.GetChild(0).position.x) != (int)math.round(transform.GetChild(1).position.x))
         {
             // Gets a new position from the "Randomiser" and relocates the bottom obstacle
             Randomiser();
-            transform.GetChild(1).position = new Vector3(transform.position.x, bottomSpawn);
+            transform.GetChild(2).position = new Vector3(transform.position.x, bottomSpawn);
             
             // Checks if the new position is valid
             Checker();
+            
+            
             
             // This function will repeat until a valid position is found
         }

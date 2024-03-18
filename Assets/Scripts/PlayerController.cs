@@ -2,12 +2,14 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
     private Rigidbody2D rb;
     public float jumpStrength;
     public int score;
+    private bool _angleUp;
     
     #region Untiy Functions
     // Start is called before the first frame update
@@ -23,8 +25,28 @@ public class PlayerController : MonoBehaviour
         {
             Jumping();
         }
-
-        Debug.Log(score);
+        
+        
+        #region Angle
+        if (rb.velocity.y > 0)
+        {
+            rb.angularVelocity = 30;
+        }
+        else if (rb.velocity.y < -3)
+        {
+            rb.angularVelocity = -30;
+        }
+        
+        if (transform.eulerAngles.z > 13 && transform.eulerAngles.z < 20)
+        {
+          transform.eulerAngles = new Vector3(0, 0, 13);
+        }
+        else if (transform.eulerAngles.z > 346 && transform.eulerAngles.z < 347)
+        {
+            transform.eulerAngles = new Vector3(0, 0, -13);
+        }
+        
+        #endregion
     }
     #endregion
 
@@ -38,15 +60,7 @@ public class PlayerController : MonoBehaviour
     #region Death
     void Death()
     {
-        Debug.Log("death");
-    }
-
-    private void OnCollisionEnter2D(Collision2D col)
-    {
-        if (col.gameObject.CompareTag("Death"))
-        {
-            Death();
-        }
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     #endregion
@@ -56,6 +70,8 @@ public class PlayerController : MonoBehaviour
     {
         score++;
     }
+    
+   #endregion
 
     private void OnTriggerEnter2D(Collider2D col)
     {
@@ -63,7 +79,12 @@ public class PlayerController : MonoBehaviour
         {
             Scoring();
         }
+        
+        if (col.gameObject.CompareTag("Death") || col.gameObject.CompareTag("ObstacleDown") || col.gameObject.CompareTag("ObstacleUp"))
+        {
+            Death();
+        }
     }
 
-    #endregion
+    
 }
