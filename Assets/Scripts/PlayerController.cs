@@ -28,13 +28,17 @@ public class PlayerController : MonoBehaviour
         
         
         #region Angle
-        if (rb.velocity.y > 0)
+        if (rb.velocity.y > 1)
         {
             rb.angularVelocity = 30;
         }
-        else if (rb.velocity.y < -3)
+        else if (rb.velocity.y < 1 && rb.velocity.y > -1)
         {
-            rb.angularVelocity = -30;
+            rb.angularVelocity = 0;
+        }
+        else if (rb.velocity.y < -1)
+        {
+            rb.angularVelocity = -40;
         }
         
         if (transform.eulerAngles.z > 13 && transform.eulerAngles.z < 20)

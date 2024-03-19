@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TreeEditor;
 using Unity.Mathematics;
+using Unity.VisualScripting;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -25,7 +26,7 @@ public class TopObstacle : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Debug.Log(Vector3.Distance(transform.GetChild(2).transform.GetChild(1).position, transform.GetChild(1).position));
+        Debug.Log(Vector3.Distance(transform.GetChild(2).transform.GetChild(0).position, transform.GetChild(1).position));
     }
     #endregion
     
@@ -53,11 +54,8 @@ public class TopObstacle : MonoBehaviour
             Checker();
             
             
-            
             // This function will repeat until a valid position is found
         }
-        
-        
     }
 
     private void Randomiser() // Generates a random number for the spawn position
