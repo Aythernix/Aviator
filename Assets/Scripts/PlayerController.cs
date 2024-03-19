@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -10,6 +11,7 @@ public class PlayerController : MonoBehaviour
     public float jumpStrength;
     public int score;
     private bool _spaceCheck;
+    public TMP_Text text;
     
     #region Untiy Functions
     // Start is called before the first frame update
@@ -84,6 +86,7 @@ public class PlayerController : MonoBehaviour
     void Scoring()
     {
         score++;
+        text.text = score.ToString();
     }
     
    #endregion
