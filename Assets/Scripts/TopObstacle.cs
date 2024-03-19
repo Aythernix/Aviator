@@ -43,8 +43,8 @@ public class TopObstacle : MonoBehaviour
 
     private void Checker() // Checks if the position of the bottom obstacle is valid
     {
-        // Runs if the distance between both obstacles is less than 16 units or if the X axis of both obstacles don't match
-        if (Vector3.Distance(transform.GetChild(2).transform.GetChild(0).position, transform.GetChild(1).position) < 16 || (int)math.round(transform.GetChild(2).transform.GetChild(0).position.x) != (int)math.round(transform.GetChild(1).position.x))
+        // Runs if the distance between both obstacles is less than 12.4 units or if the X axis of both obstacles don't match
+        if (Vector3.Distance(transform.GetChild(2).transform.GetChild(0).position, transform.GetChild(1).position) < 12.4|| (int)math.round(transform.GetChild(2).transform.GetChild(0).position.x) != (int)math.round(transform.GetChild(1).position.x))
         {
             // Gets a new position from the "Randomiser" and relocates the bottom obstacle
             Randomiser();
