@@ -1,9 +1,5 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using TreeEditor;
 using Unity.Mathematics;
-using Unity.VisualScripting;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -66,6 +62,7 @@ public class TopObstacle : MonoBehaviour
     }
     #endregion
 
+    #region colision
     private void OnTriggerEnter2D(Collider2D col) // runs on collision with a trigger
     {
         // Runs if the collision matches the tag
@@ -75,4 +72,5 @@ public class TopObstacle : MonoBehaviour
             Destroy(gameObject); 
         }
     }
+    #endregion
 }
