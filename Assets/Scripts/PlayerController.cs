@@ -9,7 +9,7 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D rb;
     public float jumpStrength;
     public int score;
-    private bool _angleUp;
+    private bool _spaceCheck;
     
     #region Untiy Functions
     // Start is called before the first frame update
@@ -25,20 +25,31 @@ public class PlayerController : MonoBehaviour
         {
             Jumping();
         }
+
+        if (Input.GetKey(KeyCode.W) && (transform.eulerAngles.z < 2 && transform.eulerAngles.z > 0.99) )
+        {
+            _spaceCheck = true;
+            rb.angularVelocity = 0;
+            rb.velocity = new Vector2(0, 0);
+        }
+        else
+        {
+            _spaceCheck = false;
+        }
         
         
         #region Angle
-        if (rb.velocity.y > 1)
+        if (rb.velocity.y > 1.5 && !_spaceCheck)
         {
             rb.angularVelocity = 30;
         }
-        else if (rb.velocity.y < 1 && rb.velocity.y > -1)
+        else if (rb.velocity.y < 1.5 && rb.velocity.y > -1.5)
         {
             rb.angularVelocity = 0;
         }
-        else if (rb.velocity.y < -1)
+        else if (rb.velocity.y < -1.5 && !_spaceCheck)
         {
-            rb.angularVelocity = -40;
+            rb.angularVelocity = -50;
         }
         
         if (transform.eulerAngles.z > 13 && transform.eulerAngles.z < 20)

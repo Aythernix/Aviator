@@ -34,10 +34,10 @@ public class ObstacleSpawner : MonoBehaviour
     IEnumerator Spawner()
     {
         // Sets the spawn point to a random number between 9, 3
-        _spawnPoint = Random.Range(9, 3);
+        _spawnPoint = Random.Range(10.5f, 5);
         // Sets the spawn time interval to a random number between 1, 3
         _time = Random.Range(2, 4 - _subtractor);
-        Debug.Log(_subtractor);
+        
         // Waits for the random number between 1,3 and subtracts it by the subtracor
         yield return new WaitForSeconds(_time);
 

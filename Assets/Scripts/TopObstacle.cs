@@ -26,7 +26,6 @@ public class TopObstacle : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(Vector3.Distance(transform.GetChild(2).transform.GetChild(0).position, transform.GetChild(1).position));
     }
     #endregion
     
@@ -43,12 +42,14 @@ public class TopObstacle : MonoBehaviour
 
     private void Checker() // Checks if the position of the bottom obstacle is valid
     {
-        // Runs if the distance between both obstacles is less than 12.4 units or if the X axis of both obstacles don't match
-        if (Vector3.Distance(transform.GetChild(2).transform.GetChild(0).position, transform.GetChild(1).position) < 12.4|| (int)math.round(transform.GetChild(2).transform.GetChild(0).position.x) != (int)math.round(transform.GetChild(1).position.x))
+        // Runs if the distance between both obstacles is less than 15.5units or if the X axis of both obstacles don't match
+        // If the check is set too high it will be out of the randomiser range and it will cause an overflow
+        if (Vector3.Distance(transform.GetChild(2).transform.GetChild(0).position, transform.GetChild(1).position) < 15.5|| (int)math.round(transform.GetChild(2).transform.GetChild(0).position.x) != (int)math.round(transform.GetChild(1).position.x))
         {
             // Gets a new position from the "Randomiser" and relocates the bottom obstacle
             Randomiser();
             transform.GetChild(2).position = new Vector3(transform.position.x, bottomSpawn);
+            
             
             // Checks if the new position is valid
             Checker();
@@ -61,7 +62,7 @@ public class TopObstacle : MonoBehaviour
     private void Randomiser() // Generates a random number for the spawn position
     {
         // Sets the "bottomSpawn" to a random number between -9.2 and -2
-        bottomSpawn = Random.Range(-9.2f, -2);
+        bottomSpawn = Random.Range(-10.5f, -2);
     }
     #endregion
 
