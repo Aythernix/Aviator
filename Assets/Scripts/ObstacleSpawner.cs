@@ -6,7 +6,7 @@ using Random = UnityEngine.Random;
 
 public class ObstacleSpawner : MonoBehaviour
 {
-    private float _time;
+    public float _time;
     private float _spawnPoint;
     public GameObject obstacle;
 

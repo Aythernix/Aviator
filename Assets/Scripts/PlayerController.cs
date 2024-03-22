@@ -10,13 +10,10 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D rb;
     public float jumpStrength;
     public int score;
-    private bool _spaceCheck;
+    private bool _DenyJump;
     public TMP_Text text;
-    public GameObject timer;
-
-    #region PowerUp var
-    private bool glide;
-    #endregion
+    
+    
     
     #region Untiy Functions
     // Start is called before the first frame update
@@ -33,16 +30,12 @@ public class PlayerController : MonoBehaviour
             Jumping();
         }
 
-        if (glide)
-        {
-            GlidePowerUp();
-        }
-        
+        _DenyJump = GetComponent<PlayerPowerUps>().denyJump;
         
         #region Angle
         
         // Runs if the Y velocity is bigger than 1.5 and space isn't being held
-        if (rb.velocity.y > 1.5 && !_spaceCheck)
+        if (rb.velocity.y > 1.5 && !_DenyJump)
         {
             // Makes the nose increase
             rb.angularVelocity = 30;
@@ -54,7 +47,7 @@ public class PlayerController : MonoBehaviour
             rb.angularVelocity = 0;
         }
         // runs if the Y velocity is less than -1.5 and space isn't being held
-        else if (rb.velocity.y < -1.5 && !_spaceCheck)
+        else if (rb.velocity.y < -1.5 && !_DenyJump)
         {
             // Makes the nose drop
             rb.angularVelocity = -50;
@@ -109,46 +102,11 @@ public class PlayerController : MonoBehaviour
         {
             Scoring();
         }
-        
-        // Runs if the player collides with an object with the following tags
-        if (col.gameObject.CompareTag("Death") || col.gameObject.CompareTag("ObstacleDown") || col.gameObject.CompareTag("ObstacleUp"))
+
+        if (col.CompareTag("Death") || col.CompareTag("ObstacleUp") || col.CompareTag("ObstacleDown"))
         {
             Death();
         }
-
-        #region PowerUps Collision
-        switch (col.gameObject.tag)
-        {
-            case "Glide":
-                glide = true;
-                Destroy(col.gameObject);
-                break;
-        }
-        #endregion
     }
-    #region Power Ups
-
-    private void GlidePowerUp()
-    {
-        if (Input.GetKey(KeyCode.W) && (transform.eulerAngles.z < 2 && transform.eulerAngles.z > 0.99))
-        {
-            _spaceCheck = true;
-            rb.angularVelocity = 0;
-            rb.velocity = new Vector2(0, 0);
-        }
-        else
-        {
-            _spaceCheck = false;
-        }
-    }
-
-    private IEnumerator Timer()
-    {
-        timer.GetComponent<Animator>().Play("Timer");
-        yield return new WaitForSeconds(10);
-        timer.GetComponent<Animator>().StopPlayback();
-    }
-    #endregion
-
     
 }

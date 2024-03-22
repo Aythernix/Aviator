@@ -41,7 +41,7 @@ public class TopObstacle : MonoBehaviour
     {
         // Runs if the distance between both obstacles is less than 15.5units or if the X axis of both obstacles don't match
         // If the check is set too high it will be out of the randomiser range and it will cause an overflow
-        if (Vector3.Distance(transform.GetChild(2).transform.GetChild(0).position, transform.GetChild(1).position) < 15.5|| (int)math.round(transform.GetChild(2).transform.GetChild(0).position.x) != (int)math.round(transform.GetChild(1).position.x))
+        if (Vector3.Distance(transform.GetChild(2).transform.GetChild(0).position, transform.GetChild(1).position) < 16 || (int)math.round(transform.GetChild(2).transform.GetChild(0).position.x) != (int)math.round(transform.GetChild(1).position.x))
         {
             // Gets a new position from the "Randomiser" and relocates the bottom obstacle
             Randomiser();
@@ -56,6 +56,7 @@ public class TopObstacle : MonoBehaviour
         }
         else
         {
+            // If the position of the bottom obstacle is valid PowerUps run
             PowerUps();
         }
     }
@@ -79,31 +80,26 @@ public class TopObstacle : MonoBehaviour
     }
     #endregion
 
-    private void PowerUps()
+    private void PowerUps() // Decides whether to spawn in a power up and which one
     {
-        int chance = Random.Range(1, 11);
+        // Chooses a number between 1 and 10
+        int chance = Random.Range(1, 5);
+        
+        // Runs if the chance is equal to one
         if (chance == 1)
         {
+            // Chooses what powerup to spawn
             int choice = Random.Range(1, 3);
-            Debug.Log(choice);
+            
+            // Executes the function depending on the power up
             switch (choice)
             {
-                case 1:
-                    Glide();
+                case 1: // Glide
+                    Instantiate(powerUps[0], new Vector3(transform.position.x, (transform.GetChild(1).position.y + transform.GetChild(2).transform.GetChild(0).position.y) / 2), quaternion.identity, transform);
                     break;
-                case 2:
-                    Slow();
+                case 2: // Slow
+                    Instantiate(powerUps[1], new Vector3(transform.position.x, (transform.GetChild(1).position.y + transform.GetChild(2).transform.GetChild(0).position.y) / 2), quaternion.identity, transform);
                     break;
-            }
-
-            void Glide()
-            {
-                Instantiate(powerUps[0], new Vector3(transform.position.x, (transform.GetChild(1).position.y + transform.GetChild(2).transform.GetChild(0).position.y) / 2), quaternion.identity, transform);
-            }
-
-            void Slow()
-            {
-                Instantiate(powerUps[1], new Vector3(transform.position.x, (transform.GetChild(1).position.y + transform.GetChild(2).transform.GetChild(0).position.y) / 2), quaternion.identity, transform);
             }
         }
     }
