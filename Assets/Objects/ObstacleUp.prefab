@@ -267,6 +267,7 @@ MonoBehaviour:
   bottomObsatcle: {fileID: 5678295867249556788, guid: f602052425774cd4285e0d23cdb38053, type: 3}
   powerUps:
   - {fileID: 2768047913619246260, guid: dcf6e3abcadb9dc468a9d50678396860, type: 3}
+  - {fileID: 5028728909228027802, guid: 94d5043f82c2baf4c8ae7048059f2bad, type: 3}
 --- !u!1 &7931254359477225534
 GameObject:
   m_ObjectHideFlags: 0

@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour
     public int score;
     private bool _spaceCheck;
     public TMP_Text text;
+    public GameObject timer;
 
     #region PowerUp var
     private bool glide;
@@ -62,7 +63,7 @@ public class PlayerController : MonoBehaviour
         // Runs if the rotation is in-between 13 and 20
         if (transform.eulerAngles.z > 13 && transform.eulerAngles.z < 20)
         {
-            // Makes the rotation 13
+            // Makes the rotation 13 
             transform.eulerAngles = new Vector3(0, 0, 13);
         }
         // Runs if the rotation is in-between -13 and -14
@@ -139,6 +140,13 @@ public class PlayerController : MonoBehaviour
         {
             _spaceCheck = false;
         }
+    }
+
+    private IEnumerator Timer()
+    {
+        timer.GetComponent<Animator>().Play("Timer");
+        yield return new WaitForSeconds(10);
+        timer.GetComponent<Animator>().StopPlayback();
     }
     #endregion
 

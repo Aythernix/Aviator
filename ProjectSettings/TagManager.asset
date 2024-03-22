@@ -9,6 +9,7 @@ TagManager:
   - ObstacleDown
   - Boundary
   - Scoring
+  - Glide
   layers:
   - Default
   - TransparentFX

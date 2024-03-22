@@ -1,6 +1,7 @@
 using System;
 using System.Runtime.ExceptionServices;
 using Unity.Mathematics;
+using Unity.VisualScripting;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -80,20 +81,29 @@ public class TopObstacle : MonoBehaviour
 
     private void PowerUps()
     {
-        int chance = Random.Range(1, 1);
+        int chance = Random.Range(1, 11);
         if (chance == 1)
         {
-            int choice = Random.Range(1, 10);
+            int choice = Random.Range(1, 3);
+            Debug.Log(choice);
             switch (choice)
             {
                 case 1:
                     Glide();
+                    break;
+                case 2:
+                    Slow();
                     break;
             }
 
             void Glide()
             {
                 Instantiate(powerUps[0], new Vector3(transform.position.x, (transform.GetChild(1).position.y + transform.GetChild(2).transform.GetChild(0).position.y) / 2), quaternion.identity, transform);
+            }
+
+            void Slow()
+            {
+                Instantiate(powerUps[1], new Vector3(transform.position.x, (transform.GetChild(1).position.y + transform.GetChild(2).transform.GetChild(0).position.y) / 2), quaternion.identity, transform);
             }
         }
     }
