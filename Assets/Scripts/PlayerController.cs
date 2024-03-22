@@ -12,6 +12,10 @@ public class PlayerController : MonoBehaviour
     public int score;
     private bool _spaceCheck;
     public TMP_Text text;
+
+    #region PowerUp var
+    private bool glide;
+    #endregion
     
     #region Untiy Functions
     // Start is called before the first frame update
@@ -28,15 +32,9 @@ public class PlayerController : MonoBehaviour
             Jumping();
         }
 
-        if (Input.GetKey(KeyCode.W) && (transform.eulerAngles.z < 2 && transform.eulerAngles.z > 0.99) )
+        if (glide)
         {
-            _spaceCheck = true;
-            rb.angularVelocity = 0;
-            rb.velocity = new Vector2(0, 0);
-        }
-        else
-        {
-            _spaceCheck = false;
+            GlidePowerUp();
         }
         
         
@@ -116,7 +114,33 @@ public class PlayerController : MonoBehaviour
         {
             Death();
         }
+
+        #region PowerUps Collision
+        switch (col.gameObject.tag)
+        {
+            case "Glide":
+                glide = true;
+                Destroy(col.gameObject);
+                break;
+        }
+        #endregion
     }
+    #region Power Ups
+
+    private void GlidePowerUp()
+    {
+        if (Input.GetKey(KeyCode.W) && (transform.eulerAngles.z < 2 && transform.eulerAngles.z > 0.99))
+        {
+            _spaceCheck = true;
+            rb.angularVelocity = 0;
+            rb.velocity = new Vector2(0, 0);
+        }
+        else
+        {
+            _spaceCheck = false;
+        }
+    }
+    #endregion
 
     
 }

@@ -1,4 +1,5 @@
 using System;
+using System.Runtime.ExceptionServices;
 using Unity.Mathematics;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -8,8 +9,7 @@ public class TopObstacle : MonoBehaviour
 
     
     public GameObject bottomObsatcle;
-    
-
+    public GameObject[] powerUps;
     private float bottomSpawn;
     
     #region Unity Functions
@@ -53,6 +53,10 @@ public class TopObstacle : MonoBehaviour
             
             // This function will repeat until a valid position is found
         }
+        else
+        {
+            PowerUps();
+        }
     }
 
     private void Randomiser() // Generates a random number for the spawn position
@@ -73,4 +77,24 @@ public class TopObstacle : MonoBehaviour
         }
     }
     #endregion
+
+    private void PowerUps()
+    {
+        int chance = Random.Range(1, 1);
+        if (chance == 1)
+        {
+            int choice = Random.Range(1, 10);
+            switch (choice)
+            {
+                case 1:
+                    Glide();
+                    break;
+            }
+
+            void Glide()
+            {
+                Instantiate(powerUps[0], new Vector3(transform.position.x, (transform.GetChild(1).position.y + transform.GetChild(2).transform.GetChild(0).position.y) / 2), quaternion.identity, transform);
+            }
+        }
+    }
 }
