@@ -897,6 +897,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5e7149a789e8c8438655a5fafee6614, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _time: 0
   obstacle: {fileID: 6869517629458533564, guid: a5a16392d27a15e45bf32017b4925a14, type: 3}
 --- !u!1 &1436780387
 GameObject:
@@ -1068,9 +1069,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1886214121}
+  - component: {fileID: 1886214117}
+  - component: {fileID: 1886214123}
   - component: {fileID: 1886214120}
   - component: {fileID: 1886214119}
-  - component: {fileID: 1886214117}
   - component: {fileID: 1886214122}
   m_Layer: 0
   m_Name: Player
@@ -1094,7 +1096,6 @@ MonoBehaviour:
   jumpStrength: 6
   score: 0
   text: {fileID: 821724611}
-  timer: {fileID: 512840585}
 --- !u!50 &1886214119
 Rigidbody2D:
   serializedVersion: 4
@@ -1255,6 +1256,21 @@ EdgeCollider2D:
   m_AdjacentEndPoint: {x: 0, y: 0}
   m_UseAdjacentStartPoint: 0
   m_UseAdjacentEndPoint: 0
+--- !u!114 &1886214123
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1886214116}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1fa3c7c70d035f41a71910bc82859ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timer: {fileID: 512840585}
+  denyJump: 0
+  obstacleSpawner: {fileID: 1401658357}
 --- !u!1 &1896557172
 GameObject:
   m_ObjectHideFlags: 0

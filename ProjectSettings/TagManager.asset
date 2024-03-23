@@ -10,6 +10,7 @@ TagManager:
   - Boundary
   - Scoring
   - Glide
+  - Slow
   layers:
   - Default
   - TransparentFX
