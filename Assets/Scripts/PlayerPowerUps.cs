@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerPowerUps : MonoBehaviour
@@ -40,13 +39,13 @@ public class PlayerPowerUps : MonoBehaviour
     {
         #region PowerUps Collision
         
-        // Runs the function depending on what powerup has been collided with
+        // Runs the function depending on what power up has been collided with
         switch (col.gameObject.tag)
         {
             case "Glide":
-                Reset(); // Resets the powerups
+                Reset(); // Resets the power ups
                 _glide = true;
-                Destroy(col.gameObject); // Removes the powerup from the game
+                Destroy(col.gameObject); // Removes the power up from the game
                 break;
             case "Slow":
                 Reset();
@@ -60,7 +59,7 @@ public class PlayerPowerUps : MonoBehaviour
     }
     
     #region Power Ups
-    private void GlidePowerUp() // Manages the glide powerup
+    private void GlidePowerUp() // Manages the glide power up
     {
         // Runs if W is being held down and the aircraft is straight
         if (Input.GetKey(KeyCode.W) && (transform.eulerAngles.z < 2 && transform.eulerAngles.z > 0.99))

@@ -1,16 +1,14 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
+
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
-    private Rigidbody2D rb;
+    private Rigidbody2D _rb;
     public float jumpStrength;
     public int score;
-    private bool _DenyJump;
+    private bool _denyJump;
     public TMP_Text text;
     
     
@@ -19,7 +17,7 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
+        _rb = GetComponent<Rigidbody2D>();
     }
 
     // Update is called once per frame
@@ -30,37 +28,37 @@ public class PlayerController : MonoBehaviour
             Jumping();
         }
 
-        _DenyJump = GetComponent<PlayerPowerUps>().denyJump;
+        _denyJump = GetComponent<PlayerPowerUps>().denyJump;
         
         #region Angle
         
         // Runs if the Y velocity is bigger than 1.5 and space isn't being held
-        if (rb.velocity.y > 1.5 && !_DenyJump)
+        if (_rb.velocity.y > 1.5 && !_denyJump)
         {
             // Makes the nose increase
-            rb.angularVelocity = 30;
+            _rb.angularVelocity = 30;
         }
         // Runs if the Y velocity is in-between 1.5 and -1.5
-        else if (rb.velocity.y < 1.5 && rb.velocity.y > -1.5)
+        else if (_rb.velocity.y < 1.5 && _rb.velocity.y > -1.5)
         {
             // Makes the angular velocity 0
-            rb.angularVelocity = 0;
+            _rb.angularVelocity = 0;
         }
         // runs if the Y velocity is less than -1.5 and space isn't being held
-        else if (rb.velocity.y < -1.5 && !_DenyJump)
+        else if (_rb.velocity.y < -1.5 && !_denyJump)
         {
             // Makes the nose drop
-            rb.angularVelocity = -50;
+            _rb.angularVelocity = -50;
         }
         
         // Runs if the rotation is in-between 13 and 20
-        if (transform.eulerAngles.z > 13 && transform.eulerAngles.z < 20)
+        if (transform.eulerAngles.z is > 13 and < 20)
         {
             // Makes the rotation 13 
             transform.eulerAngles = new Vector3(0, 0, 13);
         }
         // Runs if the rotation is in-between -13 and -14
-        else if (transform.eulerAngles.z > 346 && transform.eulerAngles.z < 347)
+        else if (transform.eulerAngles.z is > 346 and < 347)
         {
             // Sets the rotation to -13
             transform.eulerAngles = new Vector3(0, 0, -13);
@@ -73,7 +71,7 @@ public class PlayerController : MonoBehaviour
     #region Jumping
     void Jumping()
     {
-        rb.velocity = new Vector2(rb.velocity.x, jumpStrength);
+        _rb.velocity = new Vector2(_rb.velocity.x, jumpStrength);
     }
     #endregion
 
