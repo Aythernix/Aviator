@@ -15,4 +15,5 @@ MonoBehaviour:
   powerUpName: Glide
   image: {fileID: 21300000, guid: 341dd5e2e4ff1b1448a4c09dc75e6a41, type: 3}
   time: 10
+  description: Lets you glide for 10 Seconds
   prefab: {fileID: 2768047913619246260, guid: dcf6e3abcadb9dc468a9d50678396860, type: 3}

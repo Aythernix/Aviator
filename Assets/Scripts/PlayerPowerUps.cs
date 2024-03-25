@@ -11,7 +11,8 @@ public class PlayerPowerUps : MonoBehaviour
     
     private Rigidbody2D _rb;
     private bool _running;
-    private bool _active;
+    private string _currentlyActive;
+    private bool _powerUpButton;
     
     
     #region PowerUp vars
@@ -27,13 +28,22 @@ public class PlayerPowerUps : MonoBehaviour
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
+        #region Power Up Button
         if ((Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.Mouse1) || Input.GetKey(KeyCode.RightArrow)) &&
             transform.eulerAngles.z < 2 && transform.eulerAngles.z > 0.99)
         {
-            _active = true;
-            
+            _powerUpButton = true;
+        }
+        else
+        {
+            _powerUpButton = false;
+        }
+        #endregion
+
+        if (_powerUpButton)
+        {
             if (_glide) // Runs if _glide is true
             {
                 GlidePowerUp(); // Runs the glide function every frame
@@ -46,8 +56,6 @@ public class PlayerPowerUps : MonoBehaviour
         }
         else
         {
-            _active = false;
-            
             denyJump = false;
         }
     }
@@ -61,18 +69,25 @@ public class PlayerPowerUps : MonoBehaviour
         switch (col.gameObject.tag)
         {
             case "Glide":
-                Reset(); // Resets the power ups
+                if (!_glide)
+                {
+                    Reset(); // Resets the power ups
+                }
                 _glide = true;
                 Destroy(col.gameObject); // Removes the power up from the game
                 break;
             case "Slow":
-                Reset();
+                if (!_slow)
+                {
+                    Reset(); // Resets the power ups
+                }
                 _slow = true;
-                SlowPowerUp();
                 Destroy(col.gameObject);
-                break;
-                
+                break; 
         }
+
+        _currentlyActive = col.gameObject.tag;
+
         #endregion
     }
     
@@ -93,14 +108,9 @@ public class PlayerPowerUps : MonoBehaviour
 
     private void SlowPowerUp()
     {
-        if ((Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.Mouse1) || Input.GetKey(KeyCode.RightArrow)) &&
-            transform.eulerAngles.z < 2 && transform.eulerAngles.z > 0.99)
-        {   
             // Slows down time by half
             Time.timeScale = .5f;
             StartCoroutine(Timer(powerUpInfo.SlowData.time)); 
-        }
-        
     }
     #endregion
     
@@ -125,8 +135,10 @@ public class PlayerPowerUps : MonoBehaviour
         }
     }
 
-    public void Reset() // Resets all the perks to default
+    public void Reset() // Resets all the values to default
     {
+        _currentlyActive = null;
+        
         #region Glide
         _glide = false;
         denyJump = false;
@@ -139,5 +151,10 @@ public class PlayerPowerUps : MonoBehaviour
     }
     
     #endregion
+
+    private void Override()
+    {
+        
+    }
     
 }

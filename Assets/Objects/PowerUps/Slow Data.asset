@@ -14,5 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   powerUpName: Slow
   image: {fileID: 21300000, guid: 792b69174348d774d856d563f35c08f9, type: 3}
-  time: 10
+  time: 5
+  description: Slows down for 10 seconds
   prefab: {fileID: 5028728909228027802, guid: 94d5043f82c2baf4c8ae7048059f2bad, type: 3}
