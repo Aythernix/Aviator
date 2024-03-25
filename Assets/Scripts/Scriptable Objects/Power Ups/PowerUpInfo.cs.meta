@@ -1,0 +1,13 @@
+fileFormatVersion: 2
+guid: d54a069485db76147840bba642fb5944
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - GlideData: {fileID: 11400000, guid: cb12f96c806875b4895e570a23b1082d, type: 2}
+  - SlowData: {fileID: 11400000, guid: 0e537582caac19b419375c53d44c12a7, type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

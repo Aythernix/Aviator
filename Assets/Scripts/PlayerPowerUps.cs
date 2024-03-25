@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerPowerUps : MonoBehaviour
@@ -6,7 +7,7 @@ public class PlayerPowerUps : MonoBehaviour
     
     public GameObject timer;
     public bool denyJump;
-    public GameObject obstacleSpawner;
+    public PowerUpInfo powerUpInfo;
     
     private Rigidbody2D _rb;
     private bool _running;
@@ -14,7 +15,7 @@ public class PlayerPowerUps : MonoBehaviour
     
     #region PowerUp vars
     private bool _glide;
-    private bool _slow;
+    private bool  _slow;
     #endregion
     // Start is called before the first frame update
     void Start()
@@ -62,7 +63,7 @@ public class PlayerPowerUps : MonoBehaviour
     private void GlidePowerUp() // Manages the glide power up
     {
         // Runs if W is being held down and the aircraft is straight
-        if (Input.GetKey(KeyCode.W) && (transform.eulerAngles.z < 2 && transform.eulerAngles.z > 0.99))
+        if ((Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.Mouse1) || Input.GetKey(KeyCode.RightArrow)) && transform.eulerAngles.z < 2 && transform.eulerAngles.z > 0.99)
         {
             // Sets Deny Jump to true, and locks the aircraft in space
             denyJump = true;
@@ -70,7 +71,7 @@ public class PlayerPowerUps : MonoBehaviour
             _rb.velocity = new Vector2(0, 0);
             
             // Starts the timer function
-            StartCoroutine(Timer());
+            StartCoroutine(Timer(powerUpInfo.GlideData.time));
         }
         else
         {
@@ -83,12 +84,12 @@ public class PlayerPowerUps : MonoBehaviour
     {
         // Slows down time by half
         Time.timeScale = .5f;
-        StartCoroutine(Timer());
+        StartCoroutine(Timer(powerUpInfo.SlowData.time));
     }
     #endregion
     
     #region Timer & Reset
-    private IEnumerator Timer() // Manges the timer
+    private IEnumerator Timer(float time) // Manges the timer
     {
         // Only runs if the timer isn't running already
         if (!_running)
@@ -97,8 +98,8 @@ public class PlayerPowerUps : MonoBehaviour
             // Plays the timer animation
             timer.GetComponent<Animator>().Play("Timer");
 
-            // Waits 10 seconds
-            yield return new WaitForSeconds(10);
+            // Waits certain seconds
+            yield return new WaitForSeconds(time);
 
             // Sets the timer to it's default position
             timer.GetComponent<Animator>().Play("Idle");

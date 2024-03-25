@@ -3,14 +3,15 @@ using System.Runtime.ExceptionServices;
 using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 public class TopObstacle : MonoBehaviour
 {
 
     
-    public GameObject bottomObsatcle;
-    public GameObject[] powerUps;
+    [FormerlySerializedAs("bottomObsatcle")] public GameObject bottomObstatcle;
+    public PowerUpInfo powerUpInfo;
     private float bottomSpawn;
     
     #region Unity Functions
@@ -33,7 +34,7 @@ public class TopObstacle : MonoBehaviour
         Randomiser(); 
         
         // Spawns the bottom obstacle and calls the "Checker" function
-        Instantiate(bottomObsatcle, new Vector3(transform.GetChild(1).position.x, bottomSpawn), quaternion.identity, transform);
+        Instantiate(bottomObstatcle, new Vector3(transform.GetChild(1).position.x, bottomSpawn), quaternion.identity, transform);
         Checker();
     }
 
@@ -83,7 +84,7 @@ public class TopObstacle : MonoBehaviour
     private void PowerUps() // Decides whether to spawn in a power up and which one
     {
         // Chooses a number between 1 and 25
-        int chance = Random.Range(1, 26);
+        int chance = Random.Range(1, 1);
         
         // Runs if the chance is equal to one
         if (chance == 1)
@@ -95,10 +96,10 @@ public class TopObstacle : MonoBehaviour
             switch (choice)
             {
                 case 1: // Glide
-                    Instantiate(powerUps[0], new Vector3(transform.position.x, (transform.GetChild(1).position.y + transform.GetChild(2).transform.GetChild(0).position.y) / 2), quaternion.identity, transform);
+                    Instantiate(powerUpInfo.GlideData.prefab , new Vector3(transform.position.x, (transform.GetChild(1).position.y + transform.GetChild(2).transform.GetChild(0).position.y) / 2), quaternion.identity, transform);
                     break;
                 case 2: // Slow
-                    Instantiate(powerUps[1], new Vector3(transform.position.x, (transform.GetChild(1).position.y + transform.GetChild(2).transform.GetChild(0).position.y) / 2), quaternion.identity, transform);
+                    Instantiate(powerUpInfo.SlowData.prefab, new Vector3(transform.position.x, (transform.GetChild(1).position.y + transform.GetChild(2).transform.GetChild(0).position.y) / 2), quaternion.identity, transform);
                     break;
             }
         }

@@ -7,7 +7,7 @@ public class PlayerController : MonoBehaviour
 {
     private Rigidbody2D _rb;
     public float jumpStrength;
-    public int score;
+    public PlayerData playerData;
     private bool _denyJump;
     public TMP_Text text;
     
@@ -17,13 +17,14 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        playerData.DataReset();
         _rb = GetComponent<Rigidbody2D>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Mouse0) || Input.GetKeyDown(KeyCode.UpArrow))
         {
             Jumping();
         }
@@ -78,6 +79,7 @@ public class PlayerController : MonoBehaviour
     #region Death
     void Death()
     {
+        playerData.SetHighScore();
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
@@ -87,8 +89,8 @@ public class PlayerController : MonoBehaviour
     void Scoring()
     {
         // Increases score by one and updates the UI
-        score++;
-        text.text = score.ToString();
+        playerData.score++;
+        text.text = playerData.score.ToString();
     }
     
    #endregion
