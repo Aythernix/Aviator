@@ -11,11 +11,12 @@ public class PlayerPowerUps : MonoBehaviour
     
     private Rigidbody2D _rb;
     private bool _running;
+    private bool _active;
     
     
     #region PowerUp vars
     private bool _glide;
-    private bool  _slow;
+    private bool _slow;
     #endregion
     // Start is called before the first frame update
     void Start()
@@ -28,11 +29,27 @@ public class PlayerPowerUps : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (_glide) // Runs if _glide is true
+        if ((Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.Mouse1) || Input.GetKey(KeyCode.RightArrow)) &&
+            transform.eulerAngles.z < 2 && transform.eulerAngles.z > 0.99)
         {
-            GlidePowerUp(); // Runs the glide function every frame
+            _active = true;
+            
+            if (_glide) // Runs if _glide is true
+            {
+                GlidePowerUp(); // Runs the glide function every frame
+            }
+
+            if (_slow)
+            {
+                SlowPowerUp();
+            }
         }
-        
+        else
+        {
+            _active = false;
+            
+            denyJump = false;
+        }
     }
 
     
@@ -63,28 +80,27 @@ public class PlayerPowerUps : MonoBehaviour
     private void GlidePowerUp() // Manages the glide power up
     {
         // Runs if W is being held down and the aircraft is straight
-        if ((Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.Mouse1) || Input.GetKey(KeyCode.RightArrow)) && transform.eulerAngles.z < 2 && transform.eulerAngles.z > 0.99)
-        {
-            // Sets Deny Jump to true, and locks the aircraft in space
-            denyJump = true;
-            _rb.angularVelocity = 0;
-            _rb.velocity = new Vector2(0, 0);
+        
+        // Sets Deny Jump to true, and locks the aircraft in space
+        denyJump = true;
+        _rb.angularVelocity = 0;
+        _rb.velocity = new Vector2(0, 0);
             
-            // Starts the timer function
-            StartCoroutine(Timer(powerUpInfo.GlideData.time));
-        }
-        else
-        {
-            // Sets Deny Jump to false
-            denyJump = false;
-        }
+        // Starts the timer function
+        StartCoroutine(Timer(powerUpInfo.GlideData.time));
+        
     }
 
     private void SlowPowerUp()
     {
-        // Slows down time by half
-        Time.timeScale = .5f;
-        StartCoroutine(Timer(powerUpInfo.SlowData.time));
+        if ((Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.Mouse1) || Input.GetKey(KeyCode.RightArrow)) &&
+            transform.eulerAngles.z < 2 && transform.eulerAngles.z > 0.99)
+        {   
+            // Slows down time by half
+            Time.timeScale = .5f;
+            StartCoroutine(Timer(powerUpInfo.SlowData.time)); 
+        }
+        
     }
     #endregion
     
@@ -123,7 +139,5 @@ public class PlayerPowerUps : MonoBehaviour
     }
     
     #endregion
-    
-    
     
 }
