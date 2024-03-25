@@ -1,7 +1,9 @@
 
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Video;
 
 public class PlayerController : MonoBehaviour
 {
@@ -10,6 +12,7 @@ public class PlayerController : MonoBehaviour
     public PlayerData playerData;
     private bool _denyJump;
     public TMP_Text text;
+    public VideoPlayer vp;
     
     
     
@@ -77,8 +80,10 @@ public class PlayerController : MonoBehaviour
     #endregion
 
     #region Death
-    void Death()
+    private IEnumerator Death()
     {
+        vp.Play();
+        yield return new WaitForSeconds(10);
         playerData.SetHighScore();
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
@@ -105,7 +110,7 @@ public class PlayerController : MonoBehaviour
 
         if (col.CompareTag("Death") || col.CompareTag("ObstacleUp") || col.CompareTag("ObstacleDown"))
         {
-            Death();
+            StartCoroutine(Death());
         }
     }
     
