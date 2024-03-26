@@ -14,6 +14,7 @@ public class PlayerPowerUps : MonoBehaviour
     private string _currentlyActive;
     private bool _powerUpHoldButton;
     private bool _powerUpButton;
+    private bool _override;
     
     
     #region PowerUp vars
@@ -36,7 +37,7 @@ public class PlayerPowerUps : MonoBehaviour
         _powerUpButton = Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.Mouse1) || Input.GetKeyDown(KeyCode.RightArrow);
         #endregion
         
-        #region Hold Button
+        #region Hold Powerup Button
         if (_powerUpHoldButton)
         {
             if (_glide) // Runs if _glide is true
@@ -51,7 +52,7 @@ public class PlayerPowerUps : MonoBehaviour
         #endregion
         
 
-        #region Press Button
+        #region Press Poweup Button
         if (_powerUpButton)
         {
             if (_slow)
@@ -65,12 +66,18 @@ public class PlayerPowerUps : MonoBehaviour
         }
         #endregion
 
-        Debug.Log(_currentlyActive);
+        if (_override)
+        {
+            if (Input.GetKeyDown(KeyCode.Return))
+            {
+                _override = false;
+            }
+        }
         
     }
 
     
-    private void OnTriggerEnter2D(Collider2D col)
+    private IEnumerator OnTriggerEnter2D(Collider2D col)
     {
         #region PowerUps Collision
         
@@ -78,23 +85,53 @@ public class PlayerPowerUps : MonoBehaviour
         switch (col.gameObject.tag)
         {
             case "Glide":
-                if (!_glide)
+                col.gameObject.GetComponent<SpriteRenderer>().enabled = false;
+                
+                if (_currentlyActive != null && !_override)
                 {
-                    Reset(); // Resets the power ups
+                    Override();
+                    yield return new WaitUntil(() => _currentlyActive == null || !_override);
+
+                    if (_running)
+                    {
+                        yield return new WaitUntil(() => !_running);
+                    }
+                    _override = false;
                 }
-                _glide = true;
-                Destroy(col.gameObject); // Removes the power up from the game
-                _currentlyActive = col.gameObject.tag; // Sets the currently active powerup
+
+                if (!_override)
+                {
+                    Reset();
+                    _currentlyActive = "Glide"; // Sets the currently active powerup
+                    Debug.Log(_currentlyActive);
+                    _glide = true;
+                }
                 break;
+            
             case "Slow":
-                if (!_slow)
+                col.gameObject.GetComponent<SpriteRenderer>().enabled = false;
+                
+                if (_currentlyActive != null && !_override)
                 {
-                    Reset(); 
+                    Override();
+                    yield return new WaitUntil(() => _currentlyActive == null || !_override);
+
+                    if (_running)
+                    {
+                        yield return new WaitUntil(() => !_running);
+                    }
+                    _override = false;
                 }
-                _slow = true;
-                Destroy(col.gameObject);
-                _currentlyActive = col.gameObject.tag;
-                break; 
+ 
+                if (!_override)
+                {
+                    Reset();
+                    _currentlyActive = "Slow";
+                    Debug.Log(_currentlyActive);
+                    _slow = true;
+                }
+                break;
+                
         }
         #endregion
     }
@@ -145,8 +182,6 @@ public class PlayerPowerUps : MonoBehaviour
     {
         // Sets the timer to it's default position
         timer.GetComponent<Animator>().Play("Idle");
-
-        _currentlyActive = null;
         
         #region Glide
         _glide = false;
@@ -157,13 +192,15 @@ public class PlayerPowerUps : MonoBehaviour
         _slow = false;
         Time.timeScale = 1f;
         #endregion
+        
+        _currentlyActive = null;
     }
     
     #endregion
 
     private void Override()
     {
-        
+        _override = true;
     }
     
 }
