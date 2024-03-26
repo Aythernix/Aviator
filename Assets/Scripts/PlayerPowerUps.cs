@@ -12,6 +12,7 @@ public class PlayerPowerUps : MonoBehaviour
     private Rigidbody2D _rb;
     private bool _running;
     private string _currentlyActive;
+    private bool _powerUpHoldButton;
     private bool _powerUpButton;
     
     
@@ -31,24 +32,28 @@ public class PlayerPowerUps : MonoBehaviour
     void Update()
     {
         #region Power Up Button
-        if ((Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.Mouse1) || Input.GetKey(KeyCode.RightArrow)) &&
-            transform.eulerAngles.z < 2 && transform.eulerAngles.z > 0.99)
-        {
-            _powerUpButton = true;
-        }
-        else
-        {
-            _powerUpButton = false;
-        }
+        _powerUpHoldButton = Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.Mouse1) || Input.GetKey(KeyCode.RightArrow);
+        _powerUpButton = Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.Mouse1) || Input.GetKeyDown(KeyCode.RightArrow);
         #endregion
-
-        if (_powerUpButton)
+        
+        #region Hold Button
+        if (_powerUpHoldButton)
         {
             if (_glide) // Runs if _glide is true
             {
                 GlidePowerUp(); // Runs the glide function every frame
             }
+        }
+        else
+        {
+            denyJump = false;
+        }
+        #endregion
+        
 
+        #region Press Button
+        if (_powerUpButton)
+        {
             if (_slow)
             {
                 SlowPowerUp();
@@ -56,8 +61,12 @@ public class PlayerPowerUps : MonoBehaviour
         }
         else
         {
-            denyJump = false;
+            
         }
+        #endregion
+
+        Debug.Log(_currentlyActive);
+        
     }
 
     
@@ -75,19 +84,18 @@ public class PlayerPowerUps : MonoBehaviour
                 }
                 _glide = true;
                 Destroy(col.gameObject); // Removes the power up from the game
+                _currentlyActive = col.gameObject.tag; // Sets the currently active powerup
                 break;
             case "Slow":
                 if (!_slow)
                 {
-                    Reset(); // Resets the power ups
+                    Reset(); 
                 }
                 _slow = true;
                 Destroy(col.gameObject);
+                _currentlyActive = col.gameObject.tag;
                 break; 
         }
-
-        _currentlyActive = col.gameObject.tag;
-
         #endregion
     }
     
@@ -95,18 +103,19 @@ public class PlayerPowerUps : MonoBehaviour
     private void GlidePowerUp() // Manages the glide power up
     {
         // Runs if W is being held down and the aircraft is straight
-        
-        // Sets Deny Jump to true, and locks the aircraft in space
-        denyJump = true;
-        _rb.angularVelocity = 0;
-        _rb.velocity = new Vector2(0, 0);
+        if (transform.eulerAngles.z < 2 && transform.eulerAngles.z > 0.99)
+        {
+            // Sets Deny Jump to true, and locks the aircraft in space
+            denyJump = true;
+            _rb.angularVelocity = 0;
+            _rb.velocity = new Vector2(0, 0);
             
-        // Starts the timer function
-        StartCoroutine(Timer(powerUpInfo.GlideData.time));
-        
+            // Starts the timer function
+            StartCoroutine(Timer(powerUpInfo.GlideData.time));   
+        }
     }
 
-    private void SlowPowerUp()
+    private void SlowPowerUp() // Manages the slow power up
     {
             // Slows down time by half
             Time.timeScale = .5f;
@@ -126,10 +135,7 @@ public class PlayerPowerUps : MonoBehaviour
 
             // Waits certain seconds
             yield return new WaitForSeconds(time);
-
-            // Sets the timer to it's default position
-            timer.GetComponent<Animator>().Play("Idle");
-
+            
             Reset();
             _running = false;
         }
@@ -137,6 +143,9 @@ public class PlayerPowerUps : MonoBehaviour
 
     public void Reset() // Resets all the values to default
     {
+        // Sets the timer to it's default position
+        timer.GetComponent<Animator>().Play("Idle");
+
         _currentlyActive = null;
         
         #region Glide
