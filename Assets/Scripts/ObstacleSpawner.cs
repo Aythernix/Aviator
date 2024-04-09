@@ -9,8 +9,10 @@ public class ObstacleSpawner : MonoBehaviour
     private float _time;
     private float _spawnPoint;
     public GameObject obstacle;
+    public GameManager gm;
 
     private float _subtracter = 0;
+    private bool _start = false;
     
     #region Unity Functions
     // Start is called before the first frame update
@@ -26,7 +28,10 @@ public class ObstacleSpawner : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (_start == false)
+        {
+            _start = gm.start;
+        }
     }
     #endregion
 
@@ -34,6 +39,7 @@ public class ObstacleSpawner : MonoBehaviour
 
     private IEnumerator Spawner()
     {
+        yield return new WaitUntil(() => _start);
         // Sets the spawn point to a random number between 9, 3
         _spawnPoint = Random.Range(10.5f, 5);
         // Sets the spawn time interval to a random number between 1, 3

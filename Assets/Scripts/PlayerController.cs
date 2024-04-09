@@ -1,4 +1,6 @@
 
+using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -10,6 +12,8 @@ public class PlayerController : MonoBehaviour
     public PlayerData playerData;
     private bool _denyJump;
     public TMP_Text text;
+    private bool start;
+    public GameManager gm;
     
     
     
@@ -24,6 +28,17 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (start == false)
+        {
+            start = gm.start;
+        }
+        if (!start)
+        {
+            _rb.velocity = new Vector2(0, 0);
+            transform.position = new Vector3(0, 0, 0);
+            _denyJump = true;
+        }
+        
         if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Mouse0) || Input.GetKeyDown(KeyCode.UpArrow))
         {
             Jumping();
@@ -108,5 +123,4 @@ public class PlayerController : MonoBehaviour
             Death();
         }
     }
-    
 }
