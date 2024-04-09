@@ -6,7 +6,7 @@ using UnityEngine;
 public class PowerUpData: ScriptableObject
 {
     public string powerUpName;
-    public Sprite image;
+    public Sprite sprite;
     public float time = 10f;
     public string description;
     public GameObject prefab;

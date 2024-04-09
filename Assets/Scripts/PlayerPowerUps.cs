@@ -1,6 +1,8 @@
 using System.Collections;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerPowerUps : MonoBehaviour
 {
@@ -8,6 +10,9 @@ public class PlayerPowerUps : MonoBehaviour
     public GameObject timer;
     public bool denyJump;
     public PowerUpInfo powerUpInfo;
+    public Image currentlyActiveImage;
+    public Image reserveImage;
+    public TMP_Text overrideText;
     
     private Rigidbody2D _rb;
     private bool _running;
@@ -33,6 +38,8 @@ public class PlayerPowerUps : MonoBehaviour
     void Update()
     {
         #region Power Up Button
+        
+        // These are true if W, RMB or right arrow are pressed/held
         _powerUpHoldButton = Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.Mouse1) || Input.GetKey(KeyCode.RightArrow);
         _powerUpButton = Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.Mouse1) || Input.GetKeyDown(KeyCode.RightArrow);
         #endregion
@@ -47,7 +54,7 @@ public class PlayerPowerUps : MonoBehaviour
         }
         else
         {
-            denyJump = false;
+            denyJump = false; // Allows the player to jump again
         }
         #endregion
         
@@ -68,6 +75,7 @@ public class PlayerPowerUps : MonoBehaviour
 
         if (_override)
         {
+            // Overrides the currently active powerup if "enter" is pressed
             if (Input.GetKeyDown(KeyCode.Return))
             {
                 _override = false;
@@ -77,7 +85,7 @@ public class PlayerPowerUps : MonoBehaviour
     }
 
     
-    private IEnumerator OnTriggerEnter2D(Collider2D col)
+    private void OnTriggerEnter2D(Collider2D col)
     {
         #region PowerUps Collision
         
@@ -86,50 +94,12 @@ public class PlayerPowerUps : MonoBehaviour
         {
             case "Glide":
                 col.gameObject.GetComponent<SpriteRenderer>().enabled = false;
-                
-                if (_currentlyActive != null && !_override)
-                {
-                    Override();
-                    yield return new WaitUntil(() => _currentlyActive == null || !_override);
-
-                    if (_running)
-                    {
-                        yield return new WaitUntil(() => !_running);
-                    }
-                    _override = false;
-                }
-
-                if (!_override)
-                {
-                    Reset();
-                    _currentlyActive = "Glide"; // Sets the currently active powerup
-                    Debug.Log(_currentlyActive);
-                    _glide = true;
-                }
+                StartCoroutine(Override(type: "Glide"));
                 break;
             
             case "Slow":
                 col.gameObject.GetComponent<SpriteRenderer>().enabled = false;
-                
-                if (_currentlyActive != null && !_override)
-                {
-                    Override();
-                    yield return new WaitUntil(() => _currentlyActive == null || !_override);
-
-                    if (_running)
-                    {
-                        yield return new WaitUntil(() => !_running);
-                    }
-                    _override = false;
-                }
- 
-                if (!_override)
-                {
-                    Reset();
-                    _currentlyActive = "Slow";
-                    Debug.Log(_currentlyActive);
-                    _slow = true;
-                }
+                StartCoroutine(Override(type: "Slow"));
                 break;
                 
         }
@@ -194,13 +164,62 @@ public class PlayerPowerUps : MonoBehaviour
         #endregion
         
         _currentlyActive = null;
+        reserveImage.enabled = false;
+        currentlyActiveImage.enabled = false;
+        overrideText.enabled = false;
     }
     
     #endregion
 
-    private void Override()
+    private IEnumerator Override(string type)
     {
-        _override = true;
+        // Runs if there is already an active sprite and there isn't a reserve sprite
+        if (_currentlyActive != null && !_override)
+        {
+            // Enables the override, shows and sets the UI images to the power up image.
+            _override = true;
+            reserveImage.enabled = true;
+            reserveImage.sprite = powerUpInfo.GlideData.sprite;
+            overrideText.enabled = true;
+            switch (type)
+            {
+                case "Glide":
+                    reserveImage.sprite = powerUpInfo.GlideData.sprite;
+                    break;
+                case "Slow":
+                    reserveImage.sprite = powerUpInfo.SlowData.sprite;
+                    break;
+            }
+                    
+            // Waits until either there is no current powerup, or the current powerup is overriden 
+            yield return new WaitUntil(() => _currentlyActive == null || !_override);
+
+            // if a powerup is currently being used it waits until it's finished
+            if (_running)
+            {
+                yield return new WaitUntil(() => !_running);
+            }
+            _override = false;
+        }
+                
+        // Runs if override is disabled
+        if (!_override)
+        {
+            // Resets the powerups, shows and sets the currently active UI and enables the powerup.
+            Reset();
+            _currentlyActive = type; // Sets the currently active powerup
+            currentlyActiveImage.enabled = true;
+            switch (type)
+            {
+                case "Glide":
+                    _glide = true;
+                    currentlyActiveImage.sprite = powerUpInfo.GlideData.sprite;
+                    break;
+                case "Slow":
+                    _slow = true;
+                    currentlyActiveImage.sprite = powerUpInfo.SlowData.sprite;
+                    break;
+            }
+        }
     }
-    
 }
