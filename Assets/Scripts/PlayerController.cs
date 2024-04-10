@@ -15,6 +15,10 @@ public class PlayerController : MonoBehaviour
     private bool start;
     public GameManager gm;
     
+    public AudioClip explosion;
+    public AudioClip defaultSound;
+    public AudioSource sound;
+    
     
     
     #region Untiy Functions
@@ -23,6 +27,9 @@ public class PlayerController : MonoBehaviour
     {
         playerData.DataReset();
         _rb = GetComponent<Rigidbody2D>();
+        sound.clip = defaultSound;
+        sound.loop = true;
+        sound.Play();
     }
 
     // Update is called once per frame
@@ -95,7 +102,12 @@ public class PlayerController : MonoBehaviour
     void Death()
     {
         playerData.SetHighScore();
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        sound.loop = false;
+        sound.clip = explosion;
+        sound.Play();
+        Time.timeScale = 0;
+        SceneManager.LoadSceneAsync("DeathScene", LoadSceneMode.Additive);
+        
     }
 
     #endregion

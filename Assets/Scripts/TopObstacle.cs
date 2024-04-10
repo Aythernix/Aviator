@@ -84,7 +84,7 @@ public class TopObstacle : MonoBehaviour
     private void PowerUps() // Decides whether to spawn in a power up and which one
     {
         // Chooses a number between 1 and 25
-        int chance = Random.Range(1, 10);
+        int chance = Random.Range(1, 26);
         
         // Runs if the chance is equal to one
         if (chance == 1)
