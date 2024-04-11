@@ -96,12 +96,14 @@ public class PlayerPowerUps : MonoBehaviour
             case "Glide":
                 sound.GetComponent<AudioSource>().Play();
                 col.gameObject.GetComponent<SpriteRenderer>().enabled = false;
+                col.gameObject.GetComponent<Collider2D>().enabled = false;
                 StartCoroutine(Override(type: "Glide"));
                 break;
             
             case "Slow":
                 sound.GetComponent<AudioSource>().Play();
                 col.gameObject.GetComponent<SpriteRenderer>().enabled = false;
+                col.gameObject.GetComponent<Collider2D>().enabled = false;
                 StartCoroutine(Override(type: "Slow"));
                 break;
                 

@@ -25,6 +25,7 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        playerData.highScore = PlayerPrefs.GetInt("Highscore");
         playerData.DataReset();
         _rb = GetComponent<Rigidbody2D>();
         sound.GetComponent<AudioSource>().clip = defaultSound;
@@ -106,6 +107,7 @@ public class PlayerController : MonoBehaviour
     #region Death
     void Death()
     {
+        
         playerData.SetHighScore();
         sound.GetComponent<AudioSource>().loop = false;
         sound.GetComponent<AudioSource>().clip = explosion;

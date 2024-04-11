@@ -17,5 +17,7 @@ public class PlayerData : ScriptableObject
    public void SetHighScore()
    {
       highScore = Mathf.Max(score, highScore);
+      PlayerPrefs.SetInt("Highscore", highScore);
+      PlayerPrefs.Save();
    }
 }

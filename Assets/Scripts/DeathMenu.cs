@@ -7,10 +7,10 @@ using UnityEngine.SceneManagement;
 public class DeathMenu : MonoBehaviour
 {
     public TMP_Text currentScore;
-
     public TMP_Text highScore;
-
     public PlayerData playerData;
+    public GameObject sound;
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -27,11 +27,24 @@ public class DeathMenu : MonoBehaviour
 
     public void PlayAgain()
     {
+        StartCoroutine(_PlayAgain());
+    }
+    public void QuitGame()
+    {
+        StartCoroutine(_QuitGame());
+    }
+
+    private IEnumerator _PlayAgain()
+    {
+        sound.GetComponent<AudioSource>().Play();
+        yield return new WaitForSecondsRealtime(0.3f);
         SceneManager.LoadSceneAsync(1, LoadSceneMode.Single);
     }
 
-    public void QuitGame()
+    private IEnumerator _QuitGame()
     {
+        sound.GetComponent<AudioSource>().Play();
+        yield return new WaitForSecondsRealtime(0.3f);
         Application.Quit();
     }
 }

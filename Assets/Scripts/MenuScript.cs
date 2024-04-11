@@ -32,14 +32,14 @@ public class MenuScript : MonoBehaviour
     private IEnumerator _Play()
     {
         sound.Play();
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.3f);
         SceneManager.LoadSceneAsync(sceneBuildIndex: 1, LoadSceneMode.Single);
     }
 
     private IEnumerator _Options()
     {
         sound.Play();
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.3f);
         SceneManager.LoadSceneAsync(sceneBuildIndex: 3, LoadSceneMode.Additive);
     }
 }

@@ -26,7 +26,7 @@ public class OptionsScript : MonoBehaviour
     private IEnumerator _Close()
     {
         sound.Play();
-        yield return new WaitForSecondsRealtime(0.5f);
+        yield return new WaitForSecondsRealtime(0.3f);
         Time.timeScale = 1;
         SceneManager.UnloadSceneAsync(sceneBuildIndex: 3);
     }
