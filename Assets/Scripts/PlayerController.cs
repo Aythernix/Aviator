@@ -17,7 +17,7 @@ public class PlayerController : MonoBehaviour
     
     public AudioClip explosion;
     public AudioClip defaultSound;
-    public AudioSource sound;
+    public GameObject sound;
     
     
     
@@ -27,9 +27,9 @@ public class PlayerController : MonoBehaviour
     {
         playerData.DataReset();
         _rb = GetComponent<Rigidbody2D>();
-        sound.clip = defaultSound;
-        sound.loop = true;
-        sound.Play();
+        sound.GetComponent<AudioSource>().clip = defaultSound;
+        sound.GetComponent<AudioSource>().loop = true;
+        sound.GetComponent<AudioSource>().Play();
     }
 
     // Update is called once per frame
@@ -46,9 +46,14 @@ public class PlayerController : MonoBehaviour
             _denyJump = true;
         }
         
-        if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Mouse0) || Input.GetKeyDown(KeyCode.UpArrow))
+        if ((Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Mouse0) || Input.GetKeyDown(KeyCode.UpArrow)) && SceneManager.loadedSceneCount == 1)
         {
             Jumping();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Escape) && !SceneManager.GetSceneByBuildIndex(3).isLoaded)
+        {
+            SceneManager.LoadSceneAsync(3, LoadSceneMode.Additive);
         }
 
         _denyJump = GetComponent<PlayerPowerUps>().denyJump;
@@ -102,9 +107,9 @@ public class PlayerController : MonoBehaviour
     void Death()
     {
         playerData.SetHighScore();
-        sound.loop = false;
-        sound.clip = explosion;
-        sound.Play();
+        sound.GetComponent<AudioSource>().loop = false;
+        sound.GetComponent<AudioSource>().clip = explosion;
+        sound.GetComponent<AudioSource>().Play();
         Time.timeScale = 0;
         SceneManager.LoadSceneAsync("DeathScene", LoadSceneMode.Additive);
         

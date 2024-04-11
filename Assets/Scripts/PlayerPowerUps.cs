@@ -13,6 +13,7 @@ public class PlayerPowerUps : MonoBehaviour
     public Image currentlyActiveImage;
     public Image reserveImage;
     public TMP_Text overrideText;
+    public GameObject sound;
     
     private Rigidbody2D _rb;
     private bool _running;
@@ -76,7 +77,7 @@ public class PlayerPowerUps : MonoBehaviour
         if (_override)
         {
             // Overrides the currently active powerup if "enter" is pressed
-            if (Input.GetKeyDown(KeyCode.Return))
+            if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Mouse2))
             {
                 _override = false;
             }
@@ -93,11 +94,13 @@ public class PlayerPowerUps : MonoBehaviour
         switch (col.gameObject.tag)
         {
             case "Glide":
+                sound.GetComponent<AudioSource>().Play();
                 col.gameObject.GetComponent<SpriteRenderer>().enabled = false;
                 StartCoroutine(Override(type: "Glide"));
                 break;
             
             case "Slow":
+                sound.GetComponent<AudioSource>().Play();
                 col.gameObject.GetComponent<SpriteRenderer>().enabled = false;
                 StartCoroutine(Override(type: "Slow"));
                 break;
