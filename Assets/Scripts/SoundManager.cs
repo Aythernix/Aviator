@@ -10,12 +10,12 @@ public class SoundManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        AudioListener.volume = ValueStore.Volume;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        AudioListener.volume = ValueStore.Volume;
     }
 }

@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour
 {
     public bool start = false;
 
-    public TMP_Text startText;
+    public GameObject startText;
     
     // Start is called before the first frame update
     void Start()
@@ -22,7 +22,7 @@ public class GameManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Mouse0) || Input.GetKeyDown(KeyCode.UpArrow))
         {
             start = true;
-            startText.enabled = false;
+            startText.SetActive(false);
         }
     }
 }
