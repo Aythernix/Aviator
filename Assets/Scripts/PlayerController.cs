@@ -46,7 +46,7 @@ public class PlayerController : MonoBehaviour
 
     private void MenuOnperformed(InputAction.CallbackContext obj)
     {
-        if (!SceneManager.GetSceneByBuildIndex(3).isLoaded)
+        if (!SceneManager.GetSceneByBuildIndex(3).isLoaded && !SceneManager.GetSceneByBuildIndex(2).isLoaded)
         {
             SceneManager.LoadSceneAsync(3, LoadSceneMode.Additive);
         }

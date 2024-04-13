@@ -87,7 +87,8 @@ public class PlayerPowerUps : MonoBehaviour
             {
                 SlowPowerUp();
             }
-            
+
+            Debug.Log(_inputActions.Player.PowerUp.ReadValue<float>());
         }
     }
 

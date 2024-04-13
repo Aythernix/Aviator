@@ -38,9 +38,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""PowerUp"",
-                    ""type"": ""Value"",
+                    ""type"": ""Button"",
                     ""id"": ""ab34cebd-a24f-46ac-8a38-1d51c413e17c"",
-                    ""expectedControlType"": """",
+                    ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
@@ -101,7 +101,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""0bf238a5-5c73-46c5-b0ba-409dbde3181e"",
-                    ""path"": ""<Touchscreen>/primaryTouch/press"",
+                    ""path"": ""<Touchscreen>/touch0/press"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -145,8 +145,8 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""d035271f-8c92-470b-afe0-a3639e82a1fd"",
-                    ""path"": ""<Touchscreen>/Press"",
-                    ""interactions"": ""Hold(duration=1)"",
+                    ""path"": ""<Touchscreen>/touch1/press"",
+                    ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""PowerUp"",
@@ -172,6 +172,17 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Override"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e34c2d34-d6da-46a5-a051-6d5dfa2813cb"",
+                    ""path"": ""<Touchscreen>/touch1/press"",
+                    ""interactions"": ""Hold(duration=2.5)"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Menu"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
