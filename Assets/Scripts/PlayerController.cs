@@ -1,4 +1,5 @@
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -16,6 +17,7 @@ public class PlayerController : MonoBehaviour
     private bool start;
     public GameManager gm;
     private PlayerInput _playerInput;
+    private InputActions _inputActions;
     
     public AudioClip explosion;
     public AudioClip defaultSound;
@@ -36,9 +38,26 @@ public class PlayerController : MonoBehaviour
 
         _playerInput = GetComponent<PlayerInput>();
 
-        InputActions inputActions = new InputActions();
-        inputActions.Player.Enable();
-        inputActions.Player.Jump.performed += Jumping;
+        _inputActions = new InputActions();
+        _inputActions.Player.Enable();
+        _inputActions.Player.Jump.performed += Jumping;
+        _inputActions.Player.Menu.performed += MenuOnperformed;
+    }
+
+    private void MenuOnperformed(InputAction.CallbackContext obj)
+    {
+        if (!SceneManager.GetSceneByBuildIndex(3).isLoaded)
+        {
+            SceneManager.LoadSceneAsync(3, LoadSceneMode.Additive);
+        }
+    }
+
+    private void OnDisable()
+    {
+        _inputActions.Player.Jump.performed -= Jumping;
+        _inputActions.Player.Menu.performed -= MenuOnperformed;
+        _inputActions.Player.Disable();
+        
     }
 
     // Update is called once per frame
@@ -53,16 +72,6 @@ public class PlayerController : MonoBehaviour
             _rb.velocity = new Vector2(0, 0);
             transform.position = new Vector3(0, 0, 0);
             _denyJump = true;
-        }
-        
-        if ((Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Mouse0) || Input.GetKeyDown(KeyCode.UpArrow)) && SceneManager.loadedSceneCount == 1)
-        {
-            Jumping();
-        }
-
-        if (Input.GetKeyDown(KeyCode.Escape) && !SceneManager.GetSceneByBuildIndex(3).isLoaded)
-        {
-            SceneManager.LoadSceneAsync(3, LoadSceneMode.Additive);
         }
 
         _denyJump = GetComponent<PlayerPowerUps>().denyJump;
@@ -106,7 +115,8 @@ public class PlayerController : MonoBehaviour
     #endregion
 
     #region Jumping
-    public void Jumping(InputAction.CallbackContext context)
+
+    private void Jumping(InputAction.CallbackContext context)
     {
         _rb.velocity = new Vector2(_rb.velocity.x, jumpStrength);
     }

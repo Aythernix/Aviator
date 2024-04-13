@@ -49,7 +49,7 @@ public class ObstacleSpawner : MonoBehaviour
         yield return new WaitForSeconds(_time);
 
         // Spawns the top obstacle on the random spawn point
-        Instantiate(obstacle, new Vector3(10.5f, _spawnPoint), quaternion.identity);
+        Instantiate(obstacle, new Vector3(transform.position.x, _spawnPoint), quaternion.identity);
         
         
         // Restarts the "Spawner" function

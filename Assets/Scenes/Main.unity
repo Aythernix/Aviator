@@ -1919,7 +1919,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 2
+      scalar: 2.75
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -6962,7 +6962,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1401658357}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 10.05, y: 14.14, z: 0.042517003}
+  m_LocalPosition: {x: 13.44, y: 14.14, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -7300,7 +7300,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1585364142}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -30.89, y: -9.05749, z: -0.46287706}
+  m_LocalPosition: {x: -35.69, y: -9.05749, z: -0.46287706}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -7398,6 +7398,7 @@ GameObject:
   - component: {fileID: 1886214119}
   - component: {fileID: 1886214122}
   - component: {fileID: 1886214124}
+  - component: {fileID: 1886214125}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -7700,6 +7701,53 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1886214125
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1886214116}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: -944628639613478452, guid: 4e13a65b63b4e3f48905ecd7b3e5d0f0, type: 3}
+  m_NotificationBehavior: 2
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents:
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 2a2e8a53-d6f4-401e-a8f1-a3a9d476b604
+    m_ActionName: Player/Jump[/Keyboard/space,/Device Simulator Touchscreen/press]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: ab34cebd-a24f-46ac-8a38-1d51c413e17c
+    m_ActionName: Player/PowerUp[/Keyboard/w,/Mouse/rightButton,/Keyboard/rightArrow,/Device
+      Simulator Touchscreen/primaryTouch/tap]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: e5b87726-a0c7-4cea-b68e-3e70cd2bf436
+    m_ActionName: Player/Override[/Device Simulator Touchscreen/primaryTouch/tap,/Keyboard/enter,/Mouse/middleButton]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: cbb21632-42fd-481d-8ef0-9f05a2f3c29c
+    m_ActionName: Player/Menu[/Device Simulator Touchscreen/touch1/tap,/Keyboard/escape]
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: 
+  m_DefaultActionMap: Player
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
 --- !u!1 &1896557172
 GameObject:
   m_ObjectHideFlags: 0

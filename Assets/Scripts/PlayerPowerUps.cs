@@ -2,6 +2,7 @@ using System.Collections;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class PlayerPowerUps : MonoBehaviour
@@ -18,9 +19,9 @@ public class PlayerPowerUps : MonoBehaviour
     private Rigidbody2D _rb;
     private bool _running;
     private string _currentlyActive;
-    private bool _powerUpHoldButton;
-    private bool _powerUpButton;
     private bool _override;
+    private PlayerInput _playerInput;
+    private InputActions _inputActions;
     
     
     #region PowerUp vars
@@ -32,57 +33,62 @@ public class PlayerPowerUps : MonoBehaviour
     {
         _rb = GetComponent<Rigidbody2D>();
         
+        _inputActions = new InputActions();
+        _inputActions.Player.Enable();
+        _inputActions.Player.PowerUp.performed += PowerUpOnperformed;
+        _inputActions.Player.PowerUp.canceled += PowerUpOncanceled;
+        _inputActions.Player.Override.performed += OverrideOnperformed;
+        
         Reset();
+    }
+
+   
+
+    private void OnDisable()
+    {
+        _inputActions.Player.PowerUp.performed -= PowerUpOnperformed;
+        _inputActions.Player.PowerUp.canceled -= PowerUpOncanceled;
+        _inputActions.Player.Override.performed -= OverrideOnperformed;
+        _inputActions.Player.Disable();
+    }
+
+    #region Controls
+    private void PowerUpOnperformed(InputAction.CallbackContext context)
+    {
+        
+    }
+    
+    private void PowerUpOncanceled(InputAction.CallbackContext obj)
+    {
+        denyJump = false; // Allows the player to jump again
+    }
+    
+    #endregion
+    
+    private void OverrideOnperformed(InputAction.CallbackContext obj)
+    {
+        if (_override)
+        {
+            _override = false;
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        #region Power Up Button
-        
-        // These are true if W, RMB or right arrow are pressed/held
-        _powerUpHoldButton = Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.Mouse1) || Input.GetKey(KeyCode.RightArrow);
-        _powerUpButton = Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.Mouse1) || Input.GetKeyDown(KeyCode.RightArrow);
-        #endregion
-        
-        #region Hold Powerup Button
-        if (_powerUpHoldButton)
+        if (_inputActions.Player.PowerUp.ReadValue<float>() != 0)
         {
             if (_glide) // Runs if _glide is true
             {
                 GlidePowerUp(); // Runs the glide function every frame
             }
-        }
-        else
-        {
-            denyJump = false; // Allows the player to jump again
-        }
-        #endregion
         
-
-        #region Press Poweup Button
-        if (_powerUpButton)
-        {
             if (_slow)
             {
                 SlowPowerUp();
             }
-        }
-        else
-        {
             
         }
-        #endregion
-
-        if (_override)
-        {
-            // Overrides the currently active powerup if "enter" is pressed
-            if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Mouse2))
-            {
-                _override = false;
-            }
-        }
-        
     }
 
     
@@ -225,6 +231,13 @@ public class PlayerPowerUps : MonoBehaviour
                     currentlyActiveImage.sprite = powerUpInfo.SlowData.sprite;
                     break;
             }
+        }
+    }
+    public void OverrideButton()
+    {
+        if (_override)
+        {
+            _override = false;
         }
     }
 }
