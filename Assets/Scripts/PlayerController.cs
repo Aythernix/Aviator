@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
@@ -14,6 +15,7 @@ public class PlayerController : MonoBehaviour
     public TMP_Text text;
     private bool start;
     public GameManager gm;
+    private PlayerInput _playerInput;
     
     public AudioClip explosion;
     public AudioClip defaultSound;
@@ -31,6 +33,12 @@ public class PlayerController : MonoBehaviour
         sound.GetComponent<AudioSource>().clip = defaultSound;
         sound.GetComponent<AudioSource>().loop = true;
         sound.GetComponent<AudioSource>().Play();
+
+        _playerInput = GetComponent<PlayerInput>();
+
+        InputActions inputActions = new InputActions();
+        inputActions.Player.Enable();
+        inputActions.Player.Jump.performed += Jumping;
     }
 
     // Update is called once per frame
@@ -98,7 +106,7 @@ public class PlayerController : MonoBehaviour
     #endregion
 
     #region Jumping
-    void Jumping()
+    public void Jumping(InputAction.CallbackContext context)
     {
         _rb.velocity = new Vector2(_rb.velocity.x, jumpStrength);
     }
