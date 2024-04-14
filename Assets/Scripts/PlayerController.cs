@@ -46,10 +46,7 @@ public class PlayerController : MonoBehaviour
 
     private void MenuOnperformed(InputAction.CallbackContext obj)
     {
-        if (!SceneManager.GetSceneByBuildIndex(3).isLoaded && !SceneManager.GetSceneByBuildIndex(2).isLoaded)
-        {
-            SceneManager.LoadSceneAsync(3, LoadSceneMode.Additive);
-        }
+        Menu();
     }
 
     private void OnDisable()
@@ -111,12 +108,24 @@ public class PlayerController : MonoBehaviour
         }
         
         #endregion
+
+        if (_inputActions.Player.MobileJump.ReadValue<Vector2>().x > 800f)
+        {
+            JumpAction();
+        }
+
+        Debug.Log(_inputActions.Player.MobileJump.ReadValue<Vector2>().x);
     }
     #endregion
 
     #region Jumping
 
     private void Jumping(InputAction.CallbackContext context)
+    {
+        JumpAction();
+    }
+
+    private void JumpAction()
     {
         _rb.velocity = new Vector2(_rb.velocity.x, jumpStrength);
     }
@@ -160,4 +169,14 @@ public class PlayerController : MonoBehaviour
             Death();
         }
     }
+
+    public void Menu()
+    {
+        if (!SceneManager.GetSceneByBuildIndex(3).isLoaded && !SceneManager.GetSceneByBuildIndex(2).isLoaded)
+        {
+            SceneManager.LoadSceneAsync(3, LoadSceneMode.Additive);
+        }
+    }
+    
+    
 }

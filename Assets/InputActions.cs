@@ -62,6 +62,24 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Mobile Powerup"",
+                    ""type"": ""Value"",
+                    ""id"": ""2b454cc0-8a71-4b41-9e03-62e809d79b30"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Mobile Jump"",
+                    ""type"": ""Value"",
+                    ""id"": ""34e97519-fb9b-404f-a57b-4b0833fa1a47"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -91,17 +109,6 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""name"": """",
                     ""id"": ""4f027f2e-740c-4503-97ed-ca1e604d7698"",
                     ""path"": ""<Keyboard>/upArrow"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Jump"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""0bf238a5-5c73-46c5-b0ba-409dbde3181e"",
-                    ""path"": ""<Touchscreen>/touch0/press"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -177,9 +184,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""e34c2d34-d6da-46a5-a051-6d5dfa2813cb"",
-                    ""path"": ""<Touchscreen>/touch1/press"",
-                    ""interactions"": ""Hold(duration=2.5)"",
+                    ""id"": ""b258effa-2c26-4336-aa1b-96d7f4d8796d"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Menu"",
@@ -188,12 +195,34 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""b258effa-2c26-4336-aa1b-96d7f4d8796d"",
-                    ""path"": ""<Keyboard>/escape"",
+                    ""id"": ""c7f0f2c3-4c02-41e1-b4d6-cbfcf6eb40c8"",
+                    ""path"": ""<Touchscreen>/touch0/position"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Menu"",
+                    ""action"": ""Mobile Powerup"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e44dc322-31e6-4c0f-97cb-6eaae3d7a7c6"",
+                    ""path"": ""<Touchscreen>/touch1/position"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Mobile Powerup"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e70ba5b6-5f43-484e-9c70-5ae30e75e86b"",
+                    ""path"": ""<Touchscreen>/touch0/position"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Mobile Jump"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -208,6 +237,8 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         m_Player_PowerUp = m_Player.FindAction("PowerUp", throwIfNotFound: true);
         m_Player_Override = m_Player.FindAction("Override", throwIfNotFound: true);
         m_Player_Menu = m_Player.FindAction("Menu", throwIfNotFound: true);
+        m_Player_MobilePowerup = m_Player.FindAction("Mobile Powerup", throwIfNotFound: true);
+        m_Player_MobileJump = m_Player.FindAction("Mobile Jump", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -273,6 +304,8 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_PowerUp;
     private readonly InputAction m_Player_Override;
     private readonly InputAction m_Player_Menu;
+    private readonly InputAction m_Player_MobilePowerup;
+    private readonly InputAction m_Player_MobileJump;
     public struct PlayerActions
     {
         private @InputActions m_Wrapper;
@@ -281,6 +314,8 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         public InputAction @PowerUp => m_Wrapper.m_Player_PowerUp;
         public InputAction @Override => m_Wrapper.m_Player_Override;
         public InputAction @Menu => m_Wrapper.m_Player_Menu;
+        public InputAction @MobilePowerup => m_Wrapper.m_Player_MobilePowerup;
+        public InputAction @MobileJump => m_Wrapper.m_Player_MobileJump;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -302,6 +337,12 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @Menu.started += instance.OnMenu;
             @Menu.performed += instance.OnMenu;
             @Menu.canceled += instance.OnMenu;
+            @MobilePowerup.started += instance.OnMobilePowerup;
+            @MobilePowerup.performed += instance.OnMobilePowerup;
+            @MobilePowerup.canceled += instance.OnMobilePowerup;
+            @MobileJump.started += instance.OnMobileJump;
+            @MobileJump.performed += instance.OnMobileJump;
+            @MobileJump.canceled += instance.OnMobileJump;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -318,6 +359,12 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @Menu.started -= instance.OnMenu;
             @Menu.performed -= instance.OnMenu;
             @Menu.canceled -= instance.OnMenu;
+            @MobilePowerup.started -= instance.OnMobilePowerup;
+            @MobilePowerup.performed -= instance.OnMobilePowerup;
+            @MobilePowerup.canceled -= instance.OnMobilePowerup;
+            @MobileJump.started -= instance.OnMobileJump;
+            @MobileJump.performed -= instance.OnMobileJump;
+            @MobileJump.canceled -= instance.OnMobileJump;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -341,5 +388,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         void OnPowerUp(InputAction.CallbackContext context);
         void OnOverride(InputAction.CallbackContext context);
         void OnMenu(InputAction.CallbackContext context);
+        void OnMobilePowerup(InputAction.CallbackContext context);
+        void OnMobileJump(InputAction.CallbackContext context);
     }
 }

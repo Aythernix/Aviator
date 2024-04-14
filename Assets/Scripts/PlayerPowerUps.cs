@@ -41,8 +41,8 @@ public class PlayerPowerUps : MonoBehaviour
         
         Reset();
     }
+    
 
-   
 
     private void OnDisable()
     {
@@ -76,7 +76,8 @@ public class PlayerPowerUps : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (_inputActions.Player.PowerUp.ReadValue<float>() != 0)
+        // Runs if the the powerup buttons are pressed or if the right left side of the screen is pressed 
+        if (_inputActions.Player.PowerUp.ReadValue<float>() != 0 || (_inputActions.Player.MobilePowerup.ReadValue<Vector2>().x < 800f && _inputActions.Player.MobilePowerup.ReadValue<Vector2>().x != 0))
         {
             if (_glide) // Runs if _glide is true
             {
@@ -88,7 +89,8 @@ public class PlayerPowerUps : MonoBehaviour
                 SlowPowerUp();
             }
 
-            Debug.Log(_inputActions.Player.PowerUp.ReadValue<float>());
+            Debug.Log(_inputActions.Player.MobilePowerup.ReadValue<Vector2>().x);
+            
         }
     }
 
