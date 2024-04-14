@@ -22,6 +22,7 @@ public class PlayerPowerUps : MonoBehaviour
     private bool _override;
     private PlayerInput _playerInput;
     private InputActions _inputActions;
+    private float _mobilePowerUpPos;
     
     
     #region PowerUp vars
@@ -38,10 +39,13 @@ public class PlayerPowerUps : MonoBehaviour
         _inputActions.Player.PowerUp.performed += PowerUpOnperformed;
         _inputActions.Player.PowerUp.canceled += PowerUpOncanceled;
         _inputActions.Player.Override.performed += OverrideOnperformed;
+        _inputActions.Player.MobilePowerup.performed += MobilePowerUpperformed;
+        _inputActions.Player.MobilePowerup.canceled += MobilePowerupOncanceled;
         
         Reset();
     }
-    
+
+   
 
 
     private void OnDisable()
@@ -49,8 +53,12 @@ public class PlayerPowerUps : MonoBehaviour
         _inputActions.Player.PowerUp.performed -= PowerUpOnperformed;
         _inputActions.Player.PowerUp.canceled -= PowerUpOncanceled;
         _inputActions.Player.Override.performed -= OverrideOnperformed;
+        _inputActions.Player.MobilePowerup.performed -= MobilePowerUpperformed;
+        _inputActions.Player.MobilePowerup.canceled -= MobilePowerupOncanceled;
         _inputActions.Player.Disable();
     }
+
+  
 
     #region Controls
     private void PowerUpOnperformed(InputAction.CallbackContext context)
@@ -63,6 +71,15 @@ public class PlayerPowerUps : MonoBehaviour
         denyJump = false; // Allows the player to jump again
     }
     
+    private void MobilePowerUpperformed(InputAction.CallbackContext obj)
+    {
+        _mobilePowerUpPos = _inputActions.Player.MobilePowerup.ReadValue<Vector2>().x;
+    }
+    
+    private void MobilePowerupOncanceled(InputAction.CallbackContext obj)
+    {
+        _mobilePowerUpPos = 0;
+    }
     #endregion
     
     private void OverrideOnperformed(InputAction.CallbackContext obj)
@@ -72,12 +89,14 @@ public class PlayerPowerUps : MonoBehaviour
             _override = false;
         }
     }
+    
+    
 
     // Update is called once per frame
     void Update()
     {
         // Runs if the the powerup buttons are pressed or if the right left side of the screen is pressed 
-        if (_inputActions.Player.PowerUp.ReadValue<float>() != 0 || (_inputActions.Player.MobilePowerup.ReadValue<Vector2>().x < 800f && _inputActions.Player.MobilePowerup.ReadValue<Vector2>().x != 0))
+        if (_inputActions.Player.PowerUp.ReadValue<float>() != 0 || (_mobilePowerUpPos < 800f && _mobilePowerUpPos != 0))
         {
             if (_glide) // Runs if _glide is true
             {
@@ -88,10 +107,8 @@ public class PlayerPowerUps : MonoBehaviour
             {
                 SlowPowerUp();
             }
-
-            Debug.Log(_inputActions.Player.MobilePowerup.ReadValue<Vector2>().x);
-            
         }
+        //Debug.Log(_mobilePowerUpPos);
     }
 
     

@@ -16,8 +16,8 @@ public class PlayerController : MonoBehaviour
     public TMP_Text text;
     private bool start;
     public GameManager gm;
-    private PlayerInput _playerInput;
     private InputActions _inputActions;
+    private float _mobileJumpPos;
     
     public AudioClip explosion;
     public AudioClip defaultSound;
@@ -36,12 +36,23 @@ public class PlayerController : MonoBehaviour
         sound.GetComponent<AudioSource>().loop = true;
         sound.GetComponent<AudioSource>().Play();
 
-        _playerInput = GetComponent<PlayerInput>();
-
+        
         _inputActions = new InputActions();
         _inputActions.Player.Enable();
         _inputActions.Player.Jump.performed += Jumping;
         _inputActions.Player.Menu.performed += MenuOnperformed;
+        _inputActions.Player.MobileJump.performed += MobileJumpOnperformed; 
+        _inputActions.Player.MobileJump.canceled += MobileJumpOncancled;
+    }
+
+    private void MobileJumpOncancled(InputAction.CallbackContext obj)
+    {
+        _mobileJumpPos = 0;
+    }
+
+    private void MobileJumpOnperformed(InputAction.CallbackContext obj)
+    {
+        _mobileJumpPos = _inputActions.Player.MobileJump.ReadValue<Vector2>().x;
     }
 
     private void MenuOnperformed(InputAction.CallbackContext obj)
@@ -109,12 +120,12 @@ public class PlayerController : MonoBehaviour
         
         #endregion
 
-        if (_inputActions.Player.MobileJump.ReadValue<Vector2>().x > 800f)
+        if (_mobileJumpPos > 800f)
         {
             JumpAction();
         }
 
-        Debug.Log(_inputActions.Player.MobileJump.ReadValue<Vector2>().x);
+//        Debug.Log(_inputActions.Player.MobileJump.ReadValue<Vector2>().x);
     }
     #endregion
 

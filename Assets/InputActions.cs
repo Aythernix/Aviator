@@ -194,37 +194,70 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": """",
-                    ""id"": ""c7f0f2c3-4c02-41e1-b4d6-cbfcf6eb40c8"",
-                    ""path"": ""<Touchscreen>/touch0/position"",
+                    ""name"": ""One Modifier"",
+                    ""id"": ""4fc913ec-04e0-4411-ab19-d5ea1d5c22f2"",
+                    ""path"": ""OneModifier"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Mobile Powerup"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""modifier"",
+                    ""id"": ""8391a5aa-6be0-4702-8d03-3c30ea4f0e9c"",
+                    ""path"": ""<Touchscreen>/primaryTouch/press"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Mobile Powerup"",
                     ""isComposite"": false,
-                    ""isPartOfComposite"": false
+                    ""isPartOfComposite"": true
                 },
                 {
-                    ""name"": """",
-                    ""id"": ""e44dc322-31e6-4c0f-97cb-6eaae3d7a7c6"",
-                    ""path"": ""<Touchscreen>/touch1/position"",
+                    ""name"": ""binding"",
+                    ""id"": ""3f9982fd-5418-4303-ae6f-2591a72f9dfb"",
+                    ""path"": ""<Touchscreen>/position"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Mobile Powerup"",
                     ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""One Modifier"",
+                    ""id"": ""f3b92b9e-de44-4ec3-b22b-1c6a12db51c0"",
+                    ""path"": ""OneModifier"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Mobile Jump"",
+                    ""isComposite"": true,
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": """",
-                    ""id"": ""e70ba5b6-5f43-484e-9c70-5ae30e75e86b"",
-                    ""path"": ""<Touchscreen>/touch0/position"",
+                    ""name"": ""modifier"",
+                    ""id"": ""902a4d1b-a039-45f5-9b07-29399da8f23d"",
+                    ""path"": ""<Touchscreen>/primaryTouch/press"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Mobile Jump"",
                     ""isComposite"": false,
-                    ""isPartOfComposite"": false
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""binding"",
+                    ""id"": ""0c488a6e-ddd2-4af2-9393-64372f74b615"",
+                    ""path"": ""<Touchscreen>/position"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Mobile Jump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         }
