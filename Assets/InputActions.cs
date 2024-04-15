@@ -230,7 +230,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""name"": ""One Modifier"",
                     ""id"": ""f3b92b9e-de44-4ec3-b22b-1c6a12db51c0"",
                     ""path"": ""OneModifier"",
-                    ""interactions"": """",
+                    ""interactions"": ""Press"",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Mobile Jump"",

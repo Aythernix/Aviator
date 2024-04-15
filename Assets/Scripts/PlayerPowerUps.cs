@@ -3,6 +3,7 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class PlayerPowerUps : MonoBehaviour
@@ -13,7 +14,7 @@ public class PlayerPowerUps : MonoBehaviour
     public PowerUpInfo powerUpInfo;
     public Image currentlyActiveImage;
     public Image reserveImage;
-    public TMP_Text overrideText;
+    public GameObject overrideText;
     public GameObject sound;
     
     private Rigidbody2D _rb;
@@ -34,6 +35,7 @@ public class PlayerPowerUps : MonoBehaviour
     {
         _rb = GetComponent<Rigidbody2D>();
         
+        #region Subscribe To Cotrols
         _inputActions = new InputActions();
         _inputActions.Player.Enable();
         _inputActions.Player.PowerUp.performed += PowerUpOnperformed;
@@ -41,6 +43,7 @@ public class PlayerPowerUps : MonoBehaviour
         _inputActions.Player.Override.performed += OverrideOnperformed;
         _inputActions.Player.MobilePowerup.performed += MobilePowerUpperformed;
         _inputActions.Player.MobilePowerup.canceled += MobilePowerupOncanceled;
+        #endregion
         
         Reset();
     }
@@ -50,12 +53,14 @@ public class PlayerPowerUps : MonoBehaviour
 
     private void OnDisable()
     {
+        #region Unsubscribe To Cotrols
         _inputActions.Player.PowerUp.performed -= PowerUpOnperformed;
         _inputActions.Player.PowerUp.canceled -= PowerUpOncanceled;
         _inputActions.Player.Override.performed -= OverrideOnperformed;
         _inputActions.Player.MobilePowerup.performed -= MobilePowerUpperformed;
         _inputActions.Player.MobilePowerup.canceled -= MobilePowerupOncanceled;
         _inputActions.Player.Disable();
+        #endregion
     }
 
   
@@ -79,8 +84,8 @@ public class PlayerPowerUps : MonoBehaviour
     private void MobilePowerupOncanceled(InputAction.CallbackContext obj)
     {
         _mobilePowerUpPos = 0;
+        denyJump = false; 
     }
-    #endregion
     
     private void OverrideOnperformed(InputAction.CallbackContext obj)
     {
@@ -89,14 +94,16 @@ public class PlayerPowerUps : MonoBehaviour
             _override = false;
         }
     }
+    #endregion
     
     
 
     // Update is called once per frame
     void Update()
     {
+        
         // Runs if the the powerup buttons are pressed or if the right left side of the screen is pressed 
-        if (_inputActions.Player.PowerUp.ReadValue<float>() != 0 || (_mobilePowerUpPos < 800f && _mobilePowerUpPos != 0))
+        if ((_inputActions.Player.PowerUp.ReadValue<float>() != 0 || (_mobilePowerUpPos < Screen.width / 2 && _mobilePowerUpPos != 0)) && SceneManager.loadedSceneCount == 1)
         {
             if (_glide) // Runs if _glide is true
             {
@@ -108,7 +115,6 @@ public class PlayerPowerUps : MonoBehaviour
                 SlowPowerUp();
             }
         }
-        //Debug.Log(_mobilePowerUpPos);
     }
 
     
@@ -197,7 +203,7 @@ public class PlayerPowerUps : MonoBehaviour
         _currentlyActive = null;
         reserveImage.enabled = false;
         currentlyActiveImage.enabled = false;
-        overrideText.enabled = false;
+        overrideText.SetActive(false);
     }
     
     #endregion
@@ -211,7 +217,7 @@ public class PlayerPowerUps : MonoBehaviour
             _override = true;
             reserveImage.enabled = true;
             reserveImage.sprite = powerUpInfo.GlideData.sprite;
-            overrideText.enabled = true;
+            overrideText.SetActive(true);
             switch (type)
             {
                 case "Glide":

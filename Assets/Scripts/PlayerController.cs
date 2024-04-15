@@ -42,17 +42,15 @@ public class PlayerController : MonoBehaviour
         _inputActions.Player.Jump.performed += Jumping;
         _inputActions.Player.Menu.performed += MenuOnperformed;
         _inputActions.Player.MobileJump.performed += MobileJumpOnperformed; 
-        _inputActions.Player.MobileJump.canceled += MobileJumpOncancled;
     }
 
-    private void MobileJumpOncancled(InputAction.CallbackContext obj)
-    {
-        _mobileJumpPos = 0;
-    }
-
+    #region Controls
     private void MobileJumpOnperformed(InputAction.CallbackContext obj)
     {
-        _mobileJumpPos = _inputActions.Player.MobileJump.ReadValue<Vector2>().x;
+        if (obj.ReadValue<Vector2>().x > Screen.width / 2)
+        {
+            JumpAction();
+        }
     }
 
     private void MenuOnperformed(InputAction.CallbackContext obj)
@@ -67,10 +65,19 @@ public class PlayerController : MonoBehaviour
         _inputActions.Player.Disable();
         
     }
+    public void Menu()
+    {
+        if (!SceneManager.GetSceneByBuildIndex(3).isLoaded && !SceneManager.GetSceneByBuildIndex(2).isLoaded)
+        {
+            SceneManager.LoadSceneAsync(3, LoadSceneMode.Additive);
+        }
+    }
+    #endregion
 
     // Update is called once per frame
     void Update()
     {
+        
         if (start == false)
         {
             start = gm.start;
@@ -102,7 +109,7 @@ public class PlayerController : MonoBehaviour
         else if (_rb.velocity.y < -1.5 && !_denyJump)
         {
             // Makes the nose drop
-            _rb.angularVelocity = -50;
+            _rb.angularVelocity = -40;
         }
         
         // Runs if the rotation is in-between 13 and 20
@@ -119,13 +126,7 @@ public class PlayerController : MonoBehaviour
         }
         
         #endregion
-
-        if (_mobileJumpPos > 800f)
-        {
-            JumpAction();
-        }
-
-//        Debug.Log(_inputActions.Player.MobileJump.ReadValue<Vector2>().x);
+        
     }
     #endregion
 
@@ -180,14 +181,4 @@ public class PlayerController : MonoBehaviour
             Death();
         }
     }
-
-    public void Menu()
-    {
-        if (!SceneManager.GetSceneByBuildIndex(3).isLoaded && !SceneManager.GetSceneByBuildIndex(2).isLoaded)
-        {
-            SceneManager.LoadSceneAsync(3, LoadSceneMode.Additive);
-        }
-    }
-    
-    
 }
