@@ -6,7 +6,6 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
-
 public class PlayerController : MonoBehaviour
 {
     private Rigidbody2D _rb;
@@ -77,6 +76,10 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!(_inputActions.Player.MobileJump.ReadValue<Vector2>().x > Screen.width / 2))
+        {
+            _inputActions.Player.MobileJump.Reset();
+        }
         
         if (start == false)
         {
