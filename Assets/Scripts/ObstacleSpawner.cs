@@ -60,8 +60,8 @@ public class ObstacleSpawner : MonoBehaviour
     {
         // Waits for 30 seconds
         yield return new WaitForSeconds(15);
-        // Subtracts the subtracter by 0.5
-        _subtracter += 0.3f;
+        // increase the subtracter
+        _subtracter += 0.05f;
         // Restarts the "Subtracter" function
         StartCoroutine(Subtracter());
     }
